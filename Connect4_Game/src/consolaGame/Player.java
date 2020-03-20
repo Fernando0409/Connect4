@@ -1,5 +1,7 @@
 package consolaGame;
 
+import java.util.Scanner;
+
 /**
  * Clase perteneciente al package consolaGame
  * que tiene como proposito general el control de los jugadores
@@ -66,6 +68,32 @@ public class Player {
         }
         else
             System.out.println("El jugador "+getName()+" ya no tiene fichas");
+    }
+
+    /**
+     * Metodo que permite al jugador decidir en que columna
+     * desea colocar su ficha
+     * @return la columna en donde colocara la ficha
+     */
+    public int getPositionToken(){
+        Scanner scanner = new Scanner(System.in);
+        byte columnUser = 0;
+        boolean invalidColumn = true;
+
+        // Se verifica que el jugador tenga tokens
+        while(invalidColumn && getToken() > 0){
+            System.out.println("Numero de columna donde colocaras la ficha "+getName()+" ");
+            columnUser = scanner.nextByte();
+
+            // Se verifica que la columna en la que desea colocar la ficha sea valida segun el tamaño del frame
+            if(GameManagement.getColumns() > columnUser || GameManagement.getColumns() < 0){
+                System.out.println("Numero de columna invalido, intenta de nuevo");
+            } else
+                invalidColumn = false;
+        }
+
+        System.out.println("Valor de columnaUser "+columnUser);
+        return columnUser;
     }
 
 }
