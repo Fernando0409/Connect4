@@ -17,12 +17,12 @@ public class Player {
 
     /**
      * Crea un objeto de la clase Player para el manejo de las propiedades del jugador
-     * @param name nickname del jugador
+     * @param nickname nickname del jugador
      * @param turn turno de participacion del jugador
      * @param token fichas que tendra el jugador al comenzar la partida
      */
-    public Player(String name, int turn, int token){
-        this.name = name;
+    public Player(String nickname, int turn, int token){
+        name = nickname;
         this.turn = turn;
         this.token = token;
     }
