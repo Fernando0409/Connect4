@@ -2,8 +2,11 @@
 
 Connect 4 es un juego el cual consiste en colocar en forma horizontal, vertical o diagonal 4 fichas 
 del mismo tipo, comúnmente identificadas por color, en un tablero de forma rectangular. El tamaño 
-del tablero base es de 6 filas y 7 columnas para 2 jugadores. El tamaño variara según la cantidad 
-de participantes en el juego.
+del tablero base es de 6 filas y 7 columnas para 2 jugadores. 
+El tamaño variara según la cantidad de participantes en el juego:
+  - 2 jugadores -> 6 filas y 7 columnas, cada jugador tiene 21 fichas
+  - 3 jugadores -> 7 filas y 8 columnas, cada jugador tiene 19 fichas
+  - 4 jugadores -> 8 filas y 9 columnas, cada jugador tiene 18 fichas
 
 ## Previo del juego :black_nib: :information_desk_person:
 Para decidir el turno de los jugadores, la computadora generara N números aleatorios (uno para 
@@ -15,6 +18,8 @@ tenga su turno asignado se comenzara a desarrollar el juego.
 Cada jugador dispone de 21 fichas de color (para el modo consola serán signos representativos 
 escogidos por el usuario) Por turnos, los jugadores deben introducir una ficha en la columna que 
 prefieran (siempre que no esté completa) y ésta caerá a la posición más baja. 
+
+Los jugadores tendran un limite de tiempo de 30 segundos, de lo contrario perdera su turno.
 
 ## Finalización del juego  :crossed_fingers: :smile::angry:
 Gana la partida el primero que consiga alinear cuatro fichas consecutivas de un mismo color en 
