@@ -13,7 +13,7 @@ public class Main {
             System.out.println("Welcome to Connect 4 Game\n");
 
             System.out.println("Play [1]  -  Tutorial[2]");
-            System.out.println("Login[3]  -  Statics[4]");
+            System.out.println("Account[3]  -  Statics[4]");
             System.out.println(("Settings[5] - Exit[6]"));
 
             // Choose an option
@@ -28,7 +28,7 @@ public class Main {
                     tutorial();
                     break;
                 case 3:     // Login
-                    login();
+                    account();
                     break;
                 case 4:     // Statics
                     statics();
@@ -60,9 +60,63 @@ public class Main {
 
     }
 
-    public static void login() throws IOException, InterruptedException{
+    // Tiene bug, cuando ingresas una letra incorrecta
+    public static void account() throws IOException, InterruptedException{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        System.out.println("Login");
+        Scanner scanner = new Scanner(System.in);
+        String nickname, pass, email;
+        byte option = 0;
+
+        do {
+            try {
+                System.out.println("Account");
+                System.out.println("Sign in [1]\nSign Up [2]");
+                System.out.println("Back [3]");
+
+                System.out.print("Enter an option: ");
+                option = scanner.nextByte();
+
+                switch (option) {
+                    case 1:
+                        System.out.println("Sign in");
+                        System.out.print("Enter your nickname: ");
+                        nickname = scanner.next();
+
+                        System.out.print("Enter your password "+nickname+": ");
+                        pass = scanner.next();
+
+                        // Llamar al metodo inciar sesion, el cual debe
+                        // buscar al usuario en la DB
+                        break;
+
+                    case 2:
+                        System.out.println("Sign Up");
+
+                        System.out.print("Nickname: ");
+                        nickname = scanner.next();
+
+                        System.out.print("Password: ");
+                        pass = scanner.next();
+
+                        System.out.print("Email: ");
+                        email = scanner.next();
+                        break;
+
+                    case 3:
+                        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                        break;
+
+                    default:
+                        System.out.println("Option unavailable, try again...");
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println("Invalid value: " + ex.getMessage());
+                System.out.print("Enter to continue...");
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+        }while (option != 3);
+
     }
 
     public static void statics() throws IOException, InterruptedException{
