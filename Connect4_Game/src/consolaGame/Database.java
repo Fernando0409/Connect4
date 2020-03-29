@@ -46,7 +46,7 @@ public class Database {
      *               Conseguir racha (4)
      * @return array con el nickname del jugador y el dato buscado para el jugador
      */
-    private static String[] getValuesUser(String nickname, int option){
+    private static String[] getValuesStatics(String nickname, int option){
         String  nick = "", value = "";
         Statement stmt;  ResultSet rs;
 
@@ -89,22 +89,17 @@ public class Database {
     /**
      * Metodo que permite crear una cuenta a los jugadores
      * para el juego.
-     * @param name Nombre real del jugador
-     * @param lastName Apellido del jugador xD
      * @param nickname Apodo o nombre ficticio del jugador
-     * @param country Paise de origen
-     * @param birthday Fecha de nacimiento del jugador
      * @param email Correo electronico del jugador
      * @param password Contraseña de la cuenta.
      */
-    public static void addPlayers(String name, String lastName, String nickname, String country, Date birthday, String email, String password){
+    public static void addPlayers(String nickname, String email, String password){
        String [] values;
-       values = getValuesUser(nickname, 1);
+       values = getValuesStatics(nickname, 1);
        if(values[0].equals("")) {
 
-           String query = "INSERT INTO player(name, lastName, nickname, country, birthday, email, password) " +
-                          "VALUES ('" + name + "', '" + lastName + "', '" + nickname + "','" + country + "', " +
-                          "'1999-09-04', '" + email + "', '" + password + "')";
+           String query = "INSERT INTO player(nickname, email, password) " +
+                          "VALUES ('" + nickname + "', '" + email + "', '" + password + "')";
 
            try {
                Connection connection = getConnection();
@@ -124,6 +119,29 @@ public class Database {
            System.out.println("Este usuario ya existe");
     }
 
+    public static Boolean verifyUser(String nickname, String password){
+        boolean verify = false;
+        Statement stmt;  ResultSet rs;
+
+        try{
+            Connection connection = getConnection();
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM player WHERE nickname = '"+nickname+"'");
+
+            if(rs.next()){
+                System.out.println("Busqueda exitosa, se encontro el usuario");
+                verify = true;
+            }else
+                System.out.println("No se encontraron resultados");
+
+        }catch (SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return verify;
+    }
+
     /**
      * Metodo que actualiza las victorias del jugador
      * @param nickname nickname del jugador en el que se efectuaran
@@ -132,7 +150,7 @@ public class Database {
     public static void setWins(String nickname){
         String [] valuesUser;
 
-        valuesUser = getValuesUser(nickname, 1);
+        valuesUser = getValuesStatics(nickname, 1);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals("")) {
             int wins = Integer.parseInt(valuesUser[1]);
@@ -167,7 +185,7 @@ public class Database {
         int wins = 0;
         String [] valuesUser;
 
-        valuesUser = getValuesUser(nickname, 1);
+        valuesUser = getValuesStatics(nickname, 1);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals(""))
             wins = Integer.parseInt(valuesUser[1]);
@@ -184,7 +202,7 @@ public class Database {
      */
     public static void setDraw(String nickname){
         String [] valuesUser;
-        valuesUser = getValuesUser(nickname, 2);
+        valuesUser = getValuesStatics(nickname, 2);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals("")) {
            int draws = Integer.parseInt(valuesUser[1]);
@@ -217,7 +235,7 @@ public class Database {
         int draws = 0;
         String [] valuesUser;
 
-        valuesUser = getValuesUser(nickname, 2);
+        valuesUser = getValuesStatics(nickname, 2);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals(""))
             draws = Integer.parseInt(valuesUser[1]);
@@ -234,7 +252,7 @@ public class Database {
      */
     public static void setDefeat(String nickname){
         String [] valuesUser;
-        valuesUser = getValuesUser(nickname, 3);
+        valuesUser = getValuesStatics(nickname, 3);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals("")) {
             int defeats = Integer.parseInt(valuesUser[1]);
@@ -267,7 +285,7 @@ public class Database {
         int defeats = 0;
         String [] valuesUser;
 
-        valuesUser = getValuesUser(nickname, 3);
+        valuesUser = getValuesStatics(nickname, 3);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals(""))
             defeats = Integer.parseInt(valuesUser[1]);
@@ -291,7 +309,7 @@ public class Database {
      */
     public static void setStreak(String nickname){
         String [] valuesUser;
-        valuesUser = getValuesUser(nickname, 4);
+        valuesUser = getValuesStatics(nickname, 4);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals("")) {
             int streak = Integer.parseInt(valuesUser[1]);
@@ -324,7 +342,7 @@ public class Database {
         int streaks = 0;
         String [] valuesUser;
 
-        valuesUser = getValuesUser(nickname, 4);
+        valuesUser = getValuesStatics(nickname, 4);
 
         if(valuesUser[0].equals(nickname) && !valuesUser[1].equals(""))
             streaks = Integer.parseInt(valuesUser[1]);
