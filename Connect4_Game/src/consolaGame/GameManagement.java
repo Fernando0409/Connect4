@@ -47,9 +47,32 @@ public class GameManagement {
      * el orden de participacion de los jugadores.
      * @return numero de posicion de los jugadores.
      */
-    public static int generatePosition(){
-        int position = (int) (Math.random()*100+1);
-        return position;
+    public static int [] generatePosition(int players){
+        int [] numbers = new int[players];
+        int [] numberAnterior = new int[players];
+
+        for(int i = 0; i < players; i++) {
+            numberAnterior[i] = 0;
+            numbers[i] = 0;
+        }
+
+        for (int x = 0; x < players; x++) {
+            int number = (int) (Math.random() * players + 1);
+
+            for(int y = 0; y < numberAnterior.length; y++){
+                if(numberAnterior[y] == number){
+                    x--;
+                    break;
+                } else if(numberAnterior[y] != number && numberAnterior[y] == 0){
+                    numbers[x] = number;
+                    numberAnterior[x] = number;
+                    break;
+                }
+            }
+
+        }
+
+        return numbers;
     }
 
     /**
@@ -76,4 +99,15 @@ public class GameManagement {
         return tokens;
     }
 
+    public static String [][] getTablero(){
+        String [][] tablero = new String [rows][columns];
+        for(int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++) {
+                tablero[i][j] = "*";
+                System.out.print(tablero[i][j] + "   ");
+            }
+            System.out.println("\n");
+        }
+        return tablero;
+    }
 }
