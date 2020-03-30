@@ -1,12 +1,13 @@
 package consolaGame;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
         Scanner scanner = new Scanner(System.in);
         byte optionMenu, optionExit = 0;
 
@@ -14,8 +15,8 @@ public class Main {
             System.out.println("Welcome to Connect 4 Game\n");
 
             System.out.println("Play [1]  -  Tutorial[2]");
-            System.out.println("Account[3]  -  Statics[4]");
-            System.out.println(("Settings[5] - Exit[6]"));
+            System.out.println("Statics[3] - Settings[4]");
+            System.out.println("Exit[5]");
 
             // Choose an option
             System.out.print("Enter an option to start: ");
@@ -27,16 +28,13 @@ public class Main {
                 case 2:     // Tutorial
                     tutorial();
                     break;
-                case 3:     // Login
-                    //account();
-                    break;
-                case 4:     // Statics
+                case 3:     // Statics
                     statics();
                     break;
-                case 5:     // Settings
+                case 4:     // Settings
                     settings();
                     break;
-                case 6:     // Exit
+                case 5:     // Exit
                     optionExit = exit();
                     break;
                 default:
@@ -51,25 +49,26 @@ public class Main {
 
     public static void setPlay() throws IOException, InterruptedException{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
         Scanner scanner = new Scanner(System.in);
-        String [] players = new String[4];
 
         System.out.println("Play");
         System.out.print("Enter number of players: ");
         try {
             byte numberPlayers = scanner.nextByte();
+            String [] players = new String[numberPlayers];
 
-            if(numberPlayers < 4) {
+            if(numberPlayers < 4 && numberPlayers > 1) {
                 for (int x = 0; x < numberPlayers; x++) {
-                    System.out.print("Enter your nickname: ");
+                    System.out.print("Enter your nickname player "+(x+1)+": ");
                     players[x] = scanner.next();
                 }
-
                 System.out.println("Let's go to play!");
                 play(numberPlayers, players);
 
             } else{
-                System.out.println("The maxim players allow are 4");
+                System.out.println("The maxim players allow are 4 AND minimum 2 \nEnter to continue...");
+                System.in.read();
                 setPlay();
             }
         } catch (InputMismatchException ex){
@@ -82,6 +81,36 @@ public class Main {
     public static void play(int player, String [] players) throws IOException, InterruptedException{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.println("Metodo play");
+
+        // Creamos los objetos de la clase Player
+        Player [] gamers = new Player[players.length];
+
+        // Invocamos al metodo que establece cuales seran las caracteristicas del juego
+        // columnas y filas del tablero, fichas por cada jugador
+        GameManagement.setSizeFrame(players.length);
+        int tokens = GameManagement.getTokens();        // Obtenemos las fichas para cada jugador
+
+        System.out.println("Obtain players' data...");
+        int [] arrayPositions = GameManagement.generatePosition(players.length);
+
+        for (int x = 0; x < players.length; x++){
+            gamers[x] = new Player(players[x], arrayPositions[x] ,tokens);
+
+            System.out.println("Nickname: " + gamers[x].getName());
+            System.out.println("Token: " + gamers[x].getToken());
+            System.out.println("Position: " + gamers[x].getTurn());
+
+            System.out.println();
+        }
+
+        /*
+                        Vamoooooos a jugar!
+         */
+
+        String [][] tablero = GameManagement.getTablero();
+        
+        System.in.read();
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
 
     public static void tutorial() throws IOException, InterruptedException{
@@ -89,60 +118,6 @@ public class Main {
         System.out.println("Tutorial");
 
     }
-
-    /*
-    // Tiene bug, cuando ingresas una letra en vez de un numero
-    public static void account() throws IOException, InterruptedException{
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        Scanner scanner = new Scanner(System.in);
-        String nickname, pass, email;
-        byte option = 0;
-
-        System.out.println("Account");
-        System.out.println("Sign in [1]\nSign Up [2]");
-        System.out.println("Back [3]");
-
-        System.out.print("Enter an option: ");
-        try {
-            option = scanner.nextByte();
-            switch (option) {
-                case 1:
-                    System.out.println("Sign in");
-                    System.out.print("Enter your nickname: ");
-                    nickname = scanner.next();
-
-                    System.out.print("Enter your password "+nickname+": ");
-                    pass = scanner.next();
-
-                    // Llamar al metodo inciar sesion, el cual debe
-                    // buscar al usuario en la DB
-                    break;
-                case 2:
-                    System.out.println("Sign Up");
-
-                    System.out.print("Nickname: ");
-                    nickname = scanner.next();
-
-                    System.out.print("Password: ");
-                    pass = scanner.next();
-
-                    System.out.print("Email: ");
-                    email = scanner.next();
-                    break;
-                case 3:
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                    break;
-                default:
-                    System.out.println("Option unavailable, try again...");
-                    break;
-                }
-            } catch (InputMismatchException ex) {
-                System.out.println("Invalid value: " + ex.getMessage());
-                System.out.print("Enter to continue...");
-                account();
-            }
-    }
-     */
 
     public static void statics() throws IOException, InterruptedException{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
