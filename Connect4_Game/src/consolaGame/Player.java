@@ -27,6 +27,12 @@ public class Player {
         this.token = token;
     }
 
+    public Player(String nickname, int token){
+        name = nickname;
+        this.token = token;
+        turn = 0;
+    }
+
     /**
      * Metodo que nos permte saber cual es nombre del jugador,
      * el nombre se establece en el constructor.
@@ -36,8 +42,9 @@ public class Player {
         return name;
     }
 
-    // Solo metodo get porque establecemos cual sera su turno
-    // en el metodo contructor.
+    public void setTurn(int turn){
+        this.turn = turn;
+    }
 
     /**
      * Metodo que nos proporciona el turno de participacion
