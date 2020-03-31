@@ -88,27 +88,72 @@ public class Main {
         // Invocamos al metodo que establece cuales seran las caracteristicas del juego
         // columnas y filas del tablero, fichas por cada jugador
         GameManagement.setSizeFrame(players.length);
-        int tokens = GameManagement.getTokens();        // Obtenemos las fichas para cada jugador
+        byte tokens = (byte) GameManagement.getTokens();        // Obtenemos las fichas para cada jugador
 
         System.out.println("Obtain players' data...");
         int [] arrayPositions = GameManagement.generatePosition(players.length);
 
-        for (int x = 0; x < players.length; x++){
+        for (byte x = 0; x < players.length; x++){
             gamers[x] = new Player(players[x], arrayPositions[x] ,tokens);
-
-            System.out.println("Nickname: " + gamers[x].getName());
-            System.out.println("Token: " + gamers[x].getToken());
-            System.out.println("Position: " + gamers[x].getTurn());
-
-            System.out.println();
+            System.out.println(gamers[x].getName() +" has the turn " + gamers[x].getTurn());
         }
 
         /*
                         Vamoooooos a jugar!
          */
 
+        // Creamos el tablero de juego
         String [][] tablero = GameManagement.getTablero();
-        
+
+        Scanner scanner = new Scanner(System.in);
+        String nickname = "";
+        byte turn = 1, posPlaArr = -1;    // Turno del jugador, posicion del jugador en el array
+        boolean winPlayer = false;
+
+        while(!winPlayer){
+            /*
+            De acuerdo al turno que tenga el jugador
+               en su propiedad "turn", vamos a tomar el indice
+               que tiene el jugador en el array, recordar que su turno
+               generado no indica el indice que tenga en el array, por
+               lo que puede estar desordenado
+             */
+            for(byte x = 0; x < gamers.length; x++){
+                if(gamers[x].getTurn() == turn){
+                    nickname = gamers[x].getName(); // Para efectos de personalizacion de mensajes
+                    posPlaArr = x;                  // Conocer posicion del jugador en la matriz
+                    break;
+                }
+            }
+
+            // El jugador coloca su ficha
+            byte column = (byte) gamers[posPlaArr].getPositionToken();
+
+            // Verifico que haya posiciones disponibles en la columna
+            // Y si lo hay, la coloco en la posicion mas baja
+            for (int i = GameManagement.getRows() - 1; i >= 0 ; i--) {
+                if(tablero[i][column].equals("*")){
+                    tablero[i][column] = nickname.substring(0,1);
+                    gamers[posPlaArr].deleteToken();
+                    break;
+                }
+            }
+            // Mostramos el tablero despues de que se coloca la ficha
+            for(int i = 0; i < GameManagement.getRows(); i++){
+                for (int j = 0; j < GameManagement.getColumns(); j++)
+                    System.out.print(tablero[i][j] + "   ");
+                System.out.println("\n");
+            }
+
+            // Actualizamos el turno del jugador
+            if(turn >= gamers.length)
+                turn = 1;
+            else
+                turn++;
+
+            System.in.read();
+        }
+
         System.in.read();
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
