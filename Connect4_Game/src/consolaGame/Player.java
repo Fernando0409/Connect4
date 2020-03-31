@@ -89,18 +89,18 @@ public class Player {
 
         // Se verifica que el jugador tenga tokens
         while(invalidColumn && getToken() > 0){
-            System.out.println("Numero de columna donde colocaras la ficha "+getName()+" ");
+            System.out.print("Numero de columna donde colocaras la ficha "+getName()+": ");
             columnUser = scanner.nextByte();
 
             // Se verifica que la columna en la que desea colocar la ficha sea valida segun el tamaño del frame
-            if(GameManagement.getColumns() > columnUser || GameManagement.getColumns() < 0){
+            if(columnUser > GameManagement.getColumns() || GameManagement.getColumns() < 0){
+                System.out.println(GameManagement.getColumns());
                 System.out.println("Numero de columna invalido, intenta de nuevo");
             } else
                 invalidColumn = false;
         }
 
-        System.out.println("Valor de columnaUser "+columnUser);
-        return columnUser;
+        return columnUser-1;
     }
 
 }
