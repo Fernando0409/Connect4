@@ -90,12 +90,12 @@ public class Main {
         GameManagement.setSizeFrame(players.length);
         byte tokens = (byte) GameManagement.getTokens();        // Obtenemos las fichas para cada jugador
 
-        System.out.println("Obtain players' data...");
+        System.out.println("Obteniendo datos de los jugadores...");
         int [] arrayPositions = GameManagement.generatePosition(players.length);
 
         for (byte x = 0; x < players.length; x++){
             gamers[x] = new Player(players[x], arrayPositions[x] ,tokens);
-            System.out.println(gamers[x].getName() +" has the turn " + gamers[x].getTurn());
+            System.out.println(gamers[x].getName() +" tiene el turno " + gamers[x].getTurn());
         }
 
         /*
@@ -131,8 +131,13 @@ public class Main {
 
             // Verifico que haya posiciones disponibles en la columna
             // Y si lo hay, la coloco en la posicion mas baja
+            boolean first = true;
             for (int i = GameManagement.getRows() - 1; i >= 0 ; i--) {
-                if(tablero[i][column].equals("*")){
+                if(!tablero[0][column].equals("*")){
+                    System.out.println("No hay espacio en esta columna");
+                    column = (byte) gamers[posPlaArr].getPositionToken();
+                    i = GameManagement.getRows();
+                } else if(tablero[i][column].equals("*")){
                     tablero[i][column] = nickname.substring(0,1);
                     gamers[posPlaArr].deleteToken();
                     break;
@@ -150,8 +155,6 @@ public class Main {
                 turn = 1;
             else
                 turn++;
-
-            System.in.read();
         }
 
         System.in.read();
