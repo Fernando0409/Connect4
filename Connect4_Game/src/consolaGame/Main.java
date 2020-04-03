@@ -131,7 +131,6 @@ public class Main {
 
             // Verifico que haya posiciones disponibles en la columna
             // Y si lo hay, la coloco en la posicion mas baja
-            boolean first = true;
             for (int i = GameManagement.getRows() - 1; i >= 0 ; i--) {
                 if(!tablero[0][column].equals("*")){
                     System.out.println("No hay espacio en esta columna");
@@ -150,6 +149,13 @@ public class Main {
                 System.out.println("\n");
             }
 
+            // Verifico si el jugador acaba de ganar
+            if(GameManagement.getTokens() - gamers[posPlaArr].getToken() >= 4) {
+                System.out.println("Verificando si ganaste");
+                winPlayer = GameManagement.setWin(tablero, nickname.substring(0, 1));
+                if(winPlayer)
+                    System.out.println("Ganaste "+nickname);
+            }
             // Actualizamos el turno del jugador
             if(turn >= gamers.length)
                 turn = 1;

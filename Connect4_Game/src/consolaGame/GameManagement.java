@@ -110,4 +110,74 @@ public class GameManagement {
         }
         return tablero;
     }
+
+    public static boolean setWin(String [][] tablero, String character){
+        boolean win = false;
+
+        win = tokensHorizontal(tablero, character);
+        if(!win)
+            win = tokensVertical(tablero, character);
+        if(!win)
+            win = tokensDiagonal(tablero, character);
+
+        return win;
+    }
+
+    private static boolean tokensVertical(String [][] tablero, String character){
+        boolean win = false, first = true;
+        int origen = 0;
+        System.out.println("Metodo tokensVertical");
+        for(int i = GameManagement.getRows() - 1; i >= 0; i--){             //  6
+            for (int j = GameManagement.getColumns() - 1; j >= 0; j--){     // 7
+                if(tablero[i][j].equals(character)){
+                    origen = i;
+                    System.out.println(origen);
+                    if(origen-3 >= 0) {
+                        if (tablero[origen][j-1].equals(character) && tablero[origen][j-2].equals(character) && tablero[origen][j-3].equals(character)){
+                            win = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(win)
+                break;
+        }
+        System.out.println(win);
+        return win;
+    }
+
+    private static boolean tokensHorizontal(String [][] tablero, String character){
+        boolean win = false;
+        for(int i = GameManagement.getRows()-1; i >= 0; i--){      // 6
+            for (int j = GameManagement.getColumns()-1; j >= 0; j--){  // 7
+                if(tablero[i][j].equals(character)){
+                    if(i-3 >= 0){
+                        if (tablero[i-1][j].equals(character) && tablero[i-2][j].equals(character) && tablero[i-3][j].equals(character)) {
+                            win = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(win)
+                break;
+        }
+        System.out.println(win) ;
+        return win;
+    }
+
+    private static boolean tokensDiagonal(String [][] tablero, String character){
+        boolean win = false;
+        System.out.println("Metdodo tokensDiagonal");
+        for(int i = GameManagement.getRows()-1; i >= 0; i--){
+            for (int j = GameManagement.getColumns()-1; j >= 0; j--){
+                if(tablero[i][j].equals(character)){
+                    if(i-3 >= 0 && j-3 >= 0)
+                        System.out.println("Caracter: "+character+"\n Posicion ["+i+"]["+j+"]");
+                }
+            }
+        }
+        return win;
+    }
 }
