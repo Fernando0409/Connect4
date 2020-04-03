@@ -142,7 +142,13 @@ public class Main {
                     break;
                 }
             }
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             // Mostramos el tablero despues de que se coloca la ficha
+            //junto con las fichas que tiene el jugador
+            System.out.println("Tablero");
+            for(int i = 0; i < gamers.length; i++)
+                System.out.println(gamers[i].getName()+": "+gamers[i].getToken()+" tokens");
+
             for(int i = 0; i < GameManagement.getRows(); i++){
                 for (int j = 0; j < GameManagement.getColumns(); j++)
                     System.out.print(tablero[i][j] + "   ");
@@ -151,7 +157,7 @@ public class Main {
 
             // Verifico si el jugador acaba de ganar
             if(GameManagement.getTokens() - gamers[posPlaArr].getToken() >= 4) {
-                System.out.println("Verificando si ganaste");
+                //System.out.println("Verificando si ganaste");
                 winPlayer = GameManagement.setWin(tablero, nickname.substring(0, 1));
                 if(winPlayer)
                     System.out.println("Ganaste "+nickname);

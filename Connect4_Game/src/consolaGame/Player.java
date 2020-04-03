@@ -71,7 +71,7 @@ public class Player {
     public void deleteToken(){
         if(token > 0) {
             token -= 1;
-            System.out.println("El jugador "+getName()+" tiene "+getToken()+" fichas");
+            //System.out.println("El jugador "+getName()+" tiene "+getToken()+" fichas");
         }
         else
             System.out.println("El jugador "+getName()+" ya no tiene fichas");
@@ -94,7 +94,7 @@ public class Player {
 
             // Se verifica que la columna en la que desea colocar la ficha sea valida segun el tamaño del frame
             if(columnUser > GameManagement.getColumns() || GameManagement.getColumns() < 0){
-                System.out.println(GameManagement.getColumns());
+                //System.out.println(GameManagement.getColumns());
                 System.out.println("Numero de columna invalido, intenta de nuevo");
             } else
                 invalidColumn = false;
